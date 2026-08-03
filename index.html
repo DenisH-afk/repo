@@ -865,6 +865,7 @@ let levelIdx=0, waveIdx=0, lvl=LEVELS[0], heartsLost=0;
 const els = {};
 
 let SC = 1;   /* sprite + distance scale: keeps the duel readable on small screens */
+function smallScreen(){ return W < 560; }
 function measure(){
   const r = arena.getBoundingClientRect();
   W = r.width; H = r.height;
@@ -937,6 +938,11 @@ function spawn(type, at){
     else if(side===1){ f.x = W+m; f.y = rand(m,H-m); }
     else if(side===2){ f.x = rand(m,W-m); f.y = H+m; }
     else { f.x = -m; f.y = rand(m,H-m); }
+  }
+  if(cfg.boss){
+    f.addGap = smallScreen() ? 12 : 8;
+    f.addPair = !smallScreen();
+    if(smallScreen()){ f.hp = f.hpMax = 16; f.shoot = 2.1; }
   }
   const el = document.createElement('div');
   el.className = 'foe ent' + (cfg.boss?' boss':'');
@@ -1187,6 +1193,10 @@ function drawHearts(){
 function startWave(i){
   waveIdx = i;
   spawnQueue = lvl.waves[i].slice();
+  /* on a phone the last trial sends fewer escorts: there is simply less room to dodge */
+  if(smallScreen() && lvl.boss && spawnQueue[0] !== 'boss'){
+    spawnQueue = spawnQueue.filter((_,k)=> k % 3 !== 2);
+  }
   waveTimer = 1.0;
   $('levelLabel').innerHTML = `Trial <b>${ROMAN[levelIdx+1]}</b> · wave ${ROMAN[i+1]} of ${ROMAN[lvl.waves.length]}`;
   const b = $('banner');
@@ -1254,8 +1264,13 @@ function step(dt){
       }
     }
     if(f.boss){
-      f.adds = (typeof f.adds === 'number' ? f.adds : 8) - dt;
-      if(f.adds<=0 && foes.filter(x=>!x.dead).length < 6){ f.adds = 8; spawn('tiramisu'); spawn('cupcake'); }
+      const gap = f.addGap || 8;
+      f.adds = (typeof f.adds === 'number' ? f.adds : gap) - dt;
+      if(f.adds<=0 && foes.filter(x=>!x.dead).length < (f.addPair ? 6 : 4)){
+        f.adds = gap;
+        spawn('tiramisu');
+        if(f.addPair) spawn('cupcake');
+      }
     }
     if(d < (f.r + player.r)*SC) hurtPlayer(f.touch, -dx/d, -dy/d);
   }
