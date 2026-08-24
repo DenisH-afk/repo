@@ -853,6 +853,13 @@ body.touch .touch-ui{display:block}
 .tide-wrap.mode-family .tide-track i{background:linear-gradient(90deg,#b4823c,#f0c14b)}
 .tide-wrap.mode-family.ready .tide-track i{background:linear-gradient(90deg,#f0c14b,#fff2b0)}
 .ripple.family{border-color:#fff2b0;box-shadow:0 0 18px 4px rgba(240,193,75,.75)}
+.tidebtn.mode-date{background:rgba(150,110,190,.55)}
+.tidebtn.mode-date.ready{background:rgba(150,110,190,.92);box-shadow:0 0 14px rgba(201,166,232,.85)}
+.tide-wrap.mode-date .tide-track i{background:linear-gradient(90deg,#966ebe,#c9a6e8)}
+.tide-wrap.mode-date.ready .tide-track i{background:linear-gradient(90deg,#c9a6e8,#f2e6ff)}
+.ripple.date{border-color:#f2e6ff;box-shadow:0 0 18px 4px rgba(201,166,232,.75)}
+.foe.blink{animation:blinkPop .42s ease-out}
+@keyframes blinkPop{0%{opacity:0;filter:brightness(2.2)}45%{opacity:.55}100%{opacity:1}}
 .spill{z-index:1;pointer-events:none;animation:spillIn .3s ease-out}
 .spill.fading{animation:spillOut 2s ease-in forwards}
 @keyframes spillIn{0%{transform:scale(.3);opacity:0}100%{opacity:1}}
@@ -1019,6 +1026,8 @@ body.touch .touch-ui{display:block}
             <div class="nodes" id="nodes10"></div>
             <div class="chapter" id="chapter11Head">Chapter XI · sealed until the house settles</div>
             <div class="nodes" id="nodes11"></div>
+            <div class="chapter" id="chapter12Head">Chapter XII · sealed until the table clears</div>
+            <div class="nodes" id="nodes12"></div>
             <div class="reliquary">
               <span class="rl-title">Reliquary — one reward per trial</span>
               <div class="rl-row" id="reliquary"></div>
@@ -1288,6 +1297,80 @@ $('sndBtn').addEventListener('click',()=>{
 
 /* ============ enemy art ============ */
 const ART = {
+  popcornfoe: `<svg viewBox="0 0 56 62" width="56" height="62">
+    <path d="M14 24 L42 24 L38 58 q-10 4 -20 0 z" fill="#e8e2d0" stroke="#2b2013" stroke-width="2.6" stroke-linejoin="round"/>
+    <path d="M18 24 L16 58 M28 24 L28 60 M38 24 L40 58" stroke="#d6263a" stroke-width="4" opacity=".85"/>
+    <g fill="#f7ecc8" stroke="#2b2013" stroke-width="2">
+      <circle cx="18" cy="16" r="7"/><circle cx="30" cy="10" r="7.5"/><circle cx="41" cy="17" r="6.5"/>
+      <circle cx="25" cy="20" r="6"/><circle cx="36" cy="6" r="5.5"/>
+    </g>
+    <circle cx="22" cy="38" r="3.4" fill="#fff" stroke="#2b2013" stroke-width="1.5"/>
+    <circle cx="34" cy="38" r="3.4" fill="#fff" stroke="#2b2013" stroke-width="1.5"/>
+    <circle cx="22.6" cy="39" r="1.6" fill="#2b2013"/><circle cx="34.6" cy="39" r="1.6" fill="#2b2013"/>
+    <path d="M23 46 q5 4 10 0" stroke="#2b2013" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  </svg>`,
+  jellyfoe: `<svg viewBox="0 0 58 66" width="58" height="66">
+    <path d="M6 30 Q6 8 29 8 Q52 8 52 30 Q52 38 44 40 L14 40 Q6 38 6 30 Z"
+          fill="#c9a6e8" opacity=".92" stroke="#2b2013" stroke-width="2.6" stroke-linejoin="round"/>
+    <path d="M14 40 q-3 12 2 22 M23 40 q-2 14 1 24 M35 40 q2 14 -1 24 M44 40 q3 12 -2 22"
+          stroke="#b48fd8" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+    <path d="M12 22 q8 -8 17 -6" stroke="#e8d8f8" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
+    <circle cx="22" cy="26" r="3.6" fill="#fff" stroke="#2b2013" stroke-width="1.5"/>
+    <circle cx="36" cy="26" r="3.6" fill="#fff" stroke="#2b2013" stroke-width="1.5"/>
+    <circle cx="22.6" cy="27" r="1.7" fill="#2b2013"/><circle cx="36.6" cy="27" r="1.7" fill="#2b2013"/>
+    <path d="M24 34 q5 4 10 0" stroke="#2b2013" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  </svg>`,
+  legofoe: `<svg viewBox="0 0 66 52" width="66" height="52">
+    <rect x="8" y="16" width="50" height="30" rx="3" fill="#d6263a" stroke="#2b2013" stroke-width="2.8"/>
+    <g fill="#d6263a" stroke="#2b2013" stroke-width="2.6">
+      <rect x="13" y="6" width="14" height="12" rx="4"/>
+      <rect x="39" y="6" width="14" height="12" rx="4"/>
+    </g>
+    <path d="M8 24 h50" stroke="#a8201a" stroke-width="2" opacity=".6"/>
+    <circle cx="24" cy="32" r="3.8" fill="#fff" stroke="#2b2013" stroke-width="1.6"/>
+    <circle cx="42" cy="32" r="3.8" fill="#fff" stroke="#2b2013" stroke-width="1.6"/>
+    <circle cx="24.6" cy="33" r="1.8" fill="#2b2013"/><circle cx="42.6" cy="33" r="1.8" fill="#2b2013"/>
+    <path d="M26 40 q7 5 14 0" stroke="#2b2013" stroke-width="1.9" fill="none" stroke-linecap="round"/>
+  </svg>`,
+  sushifoe: `<svg viewBox="0 0 56 52" width="56" height="52">
+    <ellipse cx="28" cy="30" rx="22" ry="18" fill="#f7f2e0" stroke="#2b2013" stroke-width="2.8"/>
+    <path d="M6 30 Q6 12 28 12 Q50 12 50 30" fill="none" stroke="#2a3a24" stroke-width="6"/>
+    <ellipse cx="28" cy="30" rx="9" ry="7" fill="#e0806a" stroke="#c05a4a" stroke-width="2"/>
+    <circle cx="18" cy="30" r="3.4" fill="#fff" stroke="#2b2013" stroke-width="1.5"/>
+    <circle cx="38" cy="30" r="3.4" fill="#fff" stroke="#2b2013" stroke-width="1.5"/>
+    <circle cx="18.6" cy="31" r="1.6" fill="#2b2013"/><circle cx="38.6" cy="31" r="1.6" fill="#2b2013"/>
+    <path d="M22 40 q6 4 12 0" stroke="#2b2013" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  </svg>`,
+  bowlingfoe: `<svg viewBox="0 0 44 66" width="44" height="66">
+    <path d="M22 4 Q30 4 30 14 Q30 20 26 24 Q34 30 34 44 Q34 60 22 60 Q10 60 10 44 Q10 30 18 24 Q14 20 14 14 Q14 4 22 4 Z"
+          fill="#f7f2e0" stroke="#2b2013" stroke-width="2.8" stroke-linejoin="round"/>
+    <path d="M14 18 h16 M13 24 h18" stroke="#d6263a" stroke-width="3.4"/>
+    <circle cx="17" cy="40" r="3.4" fill="#fff" stroke="#2b2013" stroke-width="1.5"/>
+    <circle cx="27" cy="40" r="3.4" fill="#fff" stroke="#2b2013" stroke-width="1.5"/>
+    <circle cx="17.6" cy="41" r="1.6" fill="#2b2013"/><circle cx="27.6" cy="41" r="1.6" fill="#2b2013"/>
+    <path d="M18 49 q4 4 8 0" stroke="#2b2013" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  </svg>`,
+  ferrisboss: `<svg viewBox="0 0 140 132" width="140" height="132">
+    <ellipse cx="70" cy="126" rx="46" ry="6" fill="rgba(43,32,19,.28)"/>
+    <path d="M70 74 L44 124 M70 74 L96 124" stroke="#8a8478" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="70" cy="66" r="54" fill="none" stroke="#c9c2ae" stroke-width="7"/>
+    <g stroke="#9a948a" stroke-width="5">
+      <path d="M70 66 L70 12 M70 66 L70 120 M70 66 L16 66 M70 66 L124 66"/>
+      <path d="M70 66 L32 28 M70 66 L108 104 M70 66 L108 28 M70 66 L32 104"/>
+    </g>
+    <g stroke="#2b2013" stroke-width="3.4">
+      <rect x="62" y="4" width="16" height="13" rx="3" fill="#d6263a"/>
+      <rect x="8" y="59" width="16" height="13" rx="3" fill="#f0c14b"/>
+      <rect x="116" y="59" width="16" height="13" rx="3" fill="#6fc7e8"/>
+      <rect x="24" y="20" width="15" height="12" rx="3" fill="#6fa850"/>
+      <rect x="101" y="20" width="15" height="12" rx="3" fill="#e0806a"/>
+    </g>
+    <circle cx="70" cy="66" r="18" fill="#c9a878" stroke="#2b2013" stroke-width="4.5"/>
+    <circle cx="63" cy="63" r="4.4" fill="#fff" stroke="#2b2013" stroke-width="2.2"/>
+    <circle cx="77" cy="63" r="4.4" fill="#fff" stroke="#2b2013" stroke-width="2.2"/>
+    <circle cx="63.6" cy="64" r="2" fill="#2b2013"/><circle cx="77.6" cy="64" r="2" fill="#2b2013"/>
+    <path d="M63 74 q7 5 14 0" stroke="#2b2013" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  </svg>`,
   casserole: `<svg viewBox="0 0 66 52" width="66" height="52">
     <ellipse cx="33" cy="26" rx="27" ry="19" fill="#c86a2e" stroke="#2b2013" stroke-width="2.8"/>
     <ellipse cx="33" cy="22" rx="21" ry="13" fill="#e8935a" stroke="#a8501e" stroke-width="2"/>
@@ -1893,7 +1976,14 @@ const TYPES = {
   teapotfoe  :{r:22,hp:1 ,speed:50 ,art:'teapotfoe' ,w:68 ,h:56 ,touch:1, shoot:1.9, leaks:true, kin:true},
   knitbasket :{r:24,hp:8 ,speed:26 ,art:'knitbasket',w:64 ,h:58 ,touch:1, summoner:true, summons:'casserole', kin:true},
   boardgame  :{r:22,hp:6 ,speed:30 ,art:'boardgame' ,w:62 ,h:52 ,touch:1, dasher:true, dashSpeed:415, kin:true},
-  tableboss  :{r:62,hp:40,speed:30 ,art:'tableboss' ,w:140,h:122,touch:2, shoot:1.4, boss:true, leaks:true, kin:true}
+  tableboss  :{r:62,hp:40,speed:30 ,art:'tableboss' ,w:140,h:122,touch:2, shoot:1.4, boss:true, leaks:true, kin:true},
+  /* ---- chapter XII: a different evening out every time ---- */
+  popcornfoe :{r:20,hp:2 ,speed:134,art:'popcornfoe',w:56 ,h:62 ,touch:1, hunter:true, night:true},
+  jellyfoe   :{r:22,hp:3 ,speed:44 ,art:'jellyfoe'  ,w:58 ,h:66 ,touch:1, blinker:true, night:true},
+  legofoe    :{r:24,hp:7 ,speed:30 ,art:'legofoe'   ,w:66 ,h:52 ,touch:1, leaks:true, night:true},
+  sushifoe   :{r:21,hp:1 ,speed:50 ,art:'sushifoe'  ,w:56 ,h:52 ,touch:1, shoot:1.9, night:true},
+  bowlingfoe :{r:22,hp:5 ,speed:34 ,art:'bowlingfoe',w:44 ,h:66 ,touch:1, splits:2, splitInto:'popcornfoe', night:true},
+  ferrisboss :{r:62,hp:42,speed:28 ,art:'ferrisboss',w:140,h:132,touch:2, shoot:1.35, boss:true, night:true}
 };
 
 /* ============ the eight trials ============ */
@@ -2170,7 +2260,36 @@ const LEVELS = [
    waves:[['casserole','boardgame','teapotfoe'],['knitbasket','casserole','boardgame','photoalbum'],['boardgame','boardgame','knitbasket','casserole','teapotfoe']]},
   {name:'The Long Table',      hearts:5, spd:1.2, gap:.56, terrain:'dining', castle:24, boss:true, bossName:'The Long Table', finale:true, prize:87,
    brief:'The table has had enough of being leaned on, argued across and spilled over, and it has stood up on all four legs. It calls the entire lunch to its side, and the head of the table still has to be standing at the end.',
-   waves:[['casserole','photoalbum','teapotfoe'],['knitbasket','boardgame','photoalbum','casserole'],['tableboss']]}
+   waves:[['casserole','photoalbum','teapotfoe'],['knitbasket','boardgame','photoalbum','casserole'],['tableboss']]},
+
+  /* ---- chapter XII: a different evening out every time ---- */
+  {name:'The Cinema Door',   hearts:6, spd:1.15, gap:.66, terrain:'dining', gate:true, gateTerrain:'datenight', prize:88,
+   brief:'Clear the table, because we are going out. First stop is the late showing, and the popcorn has opinions about being shared. Watch for the jellyfish later on: they do not walk anywhere, they simply stop being where you left them.',
+   roomNames:['the last of the lunch','the cinema'],
+   waves:[['casserole','photoalbum','teapotfoe'],['popcornfoe','popcornfoe','bowlingfoe','sushifoe']]},
+  {name:'The Aquarium',      hearts:6, spd:1.08, gap:.9, terrain:'datenight', prize:89,
+   brief:'Second date, and the whole place is blue and quiet. The jellyfish drift about looking harmless and then turn up somewhere else entirely.',
+   waves:[['jellyfoe','jellyfoe','popcornfoe'],['jellyfoe','sushifoe','jellyfoe','bowlingfoe']]},
+  {name:'The Lego Build',    hearts:5, spd:1.12, gap:.82, terrain:'datenight', castle:24, prize:90,
+   brief:'Nine hundred pieces, one instruction booklet, and the half-built thing on the table has to survive the evening. Mind the loose bricks on the floor after you break one.',
+   waves:[['legofoe','legofoe','popcornfoe'],['legofoe','sushifoe','popcornfoe','jellyfoe'],['legofoe','legofoe','popcornfoe','popcornfoe','sushifoe']]},
+  {name:'The Sushi Counter', hearts:5, spd:1.15, gap:.74, terrain:'datenight', prize:91,
+   brief:'The little plates come round the belt whether you asked for them or not, and they are being thrown at you now. Close the distance.',
+   waves:[['sushifoe','sushifoe','popcornfoe'],['sushifoe','sushifoe','jellyfoe','legofoe'],['sushifoe','sushifoe','sushifoe','popcornfoe','jellyfoe']]},
+  {name:'The Bowling Alley', hearts:5, spd:1.15, gap:.78, terrain:'datenight', prize:92,
+   brief:'You are winning, which you will not stop mentioning. The pins go down and scatter into popcorn, so keep swinging.',
+   waves:[['bowlingfoe','bowlingfoe','popcornfoe'],['bowlingfoe','sushifoe','jellyfoe','legofoe'],['bowlingfoe','bowlingfoe','legofoe','sushifoe','popcornfoe']]},
+  {name:'The Funfair',       hearts:5, spd:1.18, gap:.54, terrain:'datenight', pincer:'ew', castle:24, prize:93,
+   brief:'Every stall on the pier at once, from both directions, and the prize stand in the middle still has to be standing when it is over.',
+   waves:[['popcornfoe','sushifoe','popcornfoe','jellyfoe','popcornfoe','legofoe'],
+          ['legofoe','popcornfoe','bowlingfoe','jellyfoe','sushifoe','popcornfoe','legofoe'],
+          ['bowlingfoe','legofoe','jellyfoe','popcornfoe','sushifoe','bowlingfoe','jellyfoe']]},
+  {name:'Stargazing',        hearts:5, spd:1.18, gap:.74, terrain:'datenight', dark:true, prize:94,
+   brief:'We drove out somewhere with no streetlights to look up properly. It is very dark, and the jellyfish are still doing that thing.',
+   waves:[['jellyfoe','popcornfoe','sushifoe'],['jellyfoe','jellyfoe','legofoe','bowlingfoe'],['jellyfoe','jellyfoe','popcornfoe','sushifoe','legofoe']]},
+  {name:'The Big Wheel',     hearts:5, spd:1.2, gap:.56, terrain:'datenight', castle:24, boss:true, bossName:'The Big Wheel', finale:true, prize:95,
+   brief:'Last stop of the night: the wheel at the end of the pier, which has decided it would rather nobody got off. It calls the whole fairground to its side, and the prize stand still has to be standing at the end.',
+   waves:[['popcornfoe','jellyfoe','sushifoe'],['bowlingfoe','legofoe','jellyfoe','popcornfoe'],['ferrisboss']]}
 ];
 
 /* ============ one reward per trial ============ */
@@ -2901,7 +3020,132 @@ const PRIZES = [
     <path d="M50 88 q-8 -7 -8 -11 q0 -3.4 3.4 -3.4 q2.6 0 3.2 2.6 q.6 -2.6 3.2 -2.6 q3.4 0 3.4 3.4 q0 4 -5.2 11 z"
           fill="#d6263a" stroke="#2b2013" stroke-width="2.6" stroke-linejoin="round"/>
   </svg>`}
+,
+  {name:'Two cinema tickets', cap:'back row, when we go',
+   note:'You pick the film. I will say I have no preference, which will be true, because I fully intend to spend most of it watching you react to it instead. I have been waiting to do that for a while.',
+   svg:`<svg viewBox="0 0 100 100">
+    <g transform="rotate(-9 34 52)">
+      <path d="M10 30 h44 v9 a5 5 0 0 0 0 10 v9 h-44 v-9 a5 5 0 0 0 0 -10 z" fill="#f7f2e0" stroke="#2b2013" stroke-width="4"/>
+      <path d="M40 30 v28" stroke="#c9c2ae" stroke-width="2.6" stroke-dasharray="4 4"/>
+      <path d="M16 40 h18 M16 48 h13" stroke="#a8201a" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <g transform="rotate(8 66 56)">
+      <path d="M46 36 h44 v9 a5 5 0 0 0 0 10 v9 h-44 v-9 a5 5 0 0 0 0 -10 z" fill="#f0dcc0" stroke="#2b2013" stroke-width="4"/>
+      <path d="M76 36 v28" stroke="#c9c2ae" stroke-width="2.6" stroke-dasharray="4 4"/>
+      <path d="M52 46 h18 M52 54 h13" stroke="#a8201a" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <path d="M50 22 q-7 -6 -7 -10 q0 -3.4 3.4 -3.4 q2.6 0 3.2 2.6 q.6 -2.6 3.2 -2.6 q3.4 0 3.4 3.4 q0 4 -6 10 z"
+          fill="#d6263a" stroke="#2b2013" stroke-width="2.6" stroke-linejoin="round"/>
+  </svg>`},
+  {name:'The tank with the jellyfish', cap:'i want to stand there too long',
+   note:'Everyone else will walk straight past it. I want us to be the two who stop, say nothing much for twenty minutes in the blue light, and then have to hurry to catch up with the rest of the place.',
+   svg:`<svg viewBox="0 0 100 100">
+    <rect x="10" y="12" width="80" height="76" rx="5" fill="#1e4a6a" stroke="#2b2013" stroke-width="4.5"/>
+    <rect x="16" y="18" width="68" height="64" rx="3" fill="#2f7fa8" opacity=".85"/>
+    <g stroke="#8fd0f0" stroke-width="2" fill="none" opacity=".5">
+      <path d="M18 30 q16 -8 32 0 t32 0"/><path d="M18 62 q16 -8 32 0 t32 0"/>
+    </g>
+    <g>
+      <path d="M28 34 Q28 24 40 24 Q52 24 52 34 Q52 39 47 40 L33 40 Q28 39 28 34 Z" fill="#c9a6e8" stroke="#2b2013" stroke-width="2.6"/>
+      <path d="M33 40 q-2 8 1 14 M40 40 q-1 9 1 15 M47 40 q2 8 -1 14" stroke="#b48fd8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    </g>
+    <g>
+      <path d="M56 54 Q56 46 66 46 Q76 46 76 54 Q76 58 72 59 L60 59 Q56 58 56 54 Z" fill="#e0b8f0" stroke="#2b2013" stroke-width="2.4"/>
+      <path d="M60 59 q-2 7 1 12 M66 59 q-1 8 1 13 M72 59 q2 7 -1 12" stroke="#c9a6e8" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    </g>
+  </svg>`},
+  {name:'A thing to build together', cap:'there will be one piece left over',
+   note:'A whole afternoon, one instruction booklet, and one piece left over at the end. I would like to build something small with you and then keep it.',
+   svg:`<svg viewBox="0 0 100 100">
+    <g stroke="#2b2013" stroke-width="4">
+      <rect x="24" y="52" width="52" height="26" rx="4" fill="#d6263a"/>
+      <rect x="32" y="42" width="14" height="11" rx="4" fill="#d6263a"/>
+      <rect x="54" y="42" width="14" height="11" rx="4" fill="#d6263a"/>
+    </g>
+    <path d="M24 62 h52" stroke="#a8201a" stroke-width="2.6" opacity=".7"/>
+    <g stroke="#2b2013" stroke-width="3.4">
+      <rect x="68" y="84" width="20" height="10" rx="3.5" fill="#6fa850"/>
+      <rect x="73" y="79" width="10" height="6" rx="3" fill="#6fa850"/>
+    </g>
+  </svg>`},
+  {name:'Half of whatever you order', cap:'you will let me, i think',
+   note:'You will order the interesting thing and I will order the safe thing, and then I would quite like half of yours to end up on my plate without either of us discussing it. That unspoken arrangement is the bit I actually want.',
+   svg:`<svg viewBox="0 0 100 100">
+    <ellipse cx="50" cy="70" rx="38" ry="12" fill="#3a2a20" stroke="#2b2013" stroke-width="4"/>
+    <g stroke="#2b2013" stroke-width="3">
+      <ellipse cx="30" cy="58" rx="16" ry="12" fill="#f7f2e0"/>
+      <path d="M14 58 Q14 44 30 44 Q46 44 46 58" fill="none" stroke="#2a3a24" stroke-width="5"/>
+      <ellipse cx="30" cy="58" rx="6.4" ry="5" fill="#e0806a"/>
+      <ellipse cx="66" cy="60" rx="16" ry="12" fill="#f7f2e0"/>
+      <path d="M50 60 Q50 46 66 46 Q82 46 82 60" fill="none" stroke="#2a3a24" stroke-width="5"/>
+      <ellipse cx="66" cy="60" rx="6.4" ry="5" fill="#f2a05a"/>
+    </g>
+    <path d="M20 30 L34 16 M26 30 L40 16" stroke="#c9a06a" stroke-width="4" stroke-linecap="round"/>
+    <path d="M20 30 L34 16 M26 30 L40 16" stroke="#8a6238" stroke-width="1.4" stroke-linecap="round"/>
+  </svg>`},
+  {name:'The shoes they make you wear', cap:'you are going to beat me',
+   note:'Rented shoes, terrible lighting, a scoreboard that makes a noise every time somebody does well. I have already decided that will mostly be you, and I have already decided I will not mind at all.',
+   svg:`<svg viewBox="0 0 100 100">
+    <path d="M8 62 Q8 46 24 46 L38 46 Q46 46 50 54 L54 62 Q54 72 42 72 L20 72 Q8 72 8 62 Z"
+          fill="#a8201a" stroke="#2b2013" stroke-width="3.6" stroke-linejoin="round"/>
+    <path d="M14 54 h20 M14 60 h24" stroke="#f0dcc0" stroke-width="3"/>
+    <path d="M46 62 Q46 46 62 46 L76 46 Q84 46 88 54 L92 62 Q92 72 80 72 L58 72 Q46 72 46 62 Z"
+          fill="#f0dcc0" stroke="#2b2013" stroke-width="3.6" stroke-linejoin="round"/>
+    <path d="M52 54 h20 M52 60 h24" stroke="#a8201a" stroke-width="3"/>
+    <circle cx="26" cy="26" r="14" fill="#2a2440" stroke="#2b2013" stroke-width="3.6"/>
+    <g fill="#8a94a0"><circle cx="22" cy="22" r="2.4"/><circle cx="30" cy="22" r="2.4"/><circle cx="26" cy="29" r="2.4"/></g>
+  </svg>`},
+  {name:'Something won at a stall', cap:'it will cost four times what it is worth',
+   note:'Wildly overpriced, badly stitched, and completely non-negotiable the second I see you look at it. I want to be insufferable about winning it, and then I want it to live in the car forever.',
+   svg:`<svg viewBox="0 0 100 100">
+    <path d="M30 34 q-12 -6 -12 -16 q0 -8 8 -8 q7 0 10 8 q3 -8 10 -8 q8 0 8 8 q0 10 -12 16 z"
+          fill="#c9a6be" stroke="#2b2013" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="42" cy="56" rx="24" ry="22" fill="#e0c8d8" stroke="#2b2013" stroke-width="4"/>
+    <ellipse cx="42" cy="86" rx="20" ry="10" fill="#e0c8d8" stroke="#2b2013" stroke-width="4"/>
+    <circle cx="34" cy="52" r="3.4" fill="#2b2013"/><circle cx="50" cy="52" r="3.4" fill="#2b2013"/>
+    <path d="M36 62 q6 5 12 0" stroke="#2b2013" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <path d="M66 40 l3 7 7.4 .6 -5.6 5 1.8 7.4 -6.6 -4 -6.6 4 1.8 -7.4 -5.6 -5 7.4 -.6 z"
+          fill="#f0c14b" stroke="#2b2013" stroke-width="2.4" stroke-linejoin="round"/>
+  </svg>`},
+  {name:'A blanket in a field somewhere', cap:'no signal, no plans',
+   note:'I want to drive us far enough out that the sky does the thing it is supposed to do, and then not say anything clever about it. It would cost the petrol and I suspect it would end up being the best evening of the year.',
+   svg:`<svg viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#1e2a4a"/>
+    <g fill="#fdf3d8">
+      <circle cx="12" cy="14" r="1.4"/><circle cx="30" cy="8" r="1"/><circle cx="48" cy="16" r="1.2"/>
+      <circle cx="66" cy="10" r="1"/><circle cx="84" cy="18" r="1.3"/><circle cx="22" cy="30" r="1"/>
+      <circle cx="58" cy="32" r="1.1"/><circle cx="90" cy="36" r="1"/><circle cx="8" cy="42" r="1.1"/>
+      <circle cx="40" cy="40" r="1"/><circle cx="74" cy="44" r="1.2"/>
+    </g>
+    <path d="M62 16 L44 34" stroke="#fdf3d8" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+    <path d="M62 12 l1.4 4.2 4.2 1.4 -4.2 1.4 -1.4 4.2 -1.4 -4.2 -4.2 -1.4 4.2 -1.4 z" fill="#fff8e0"/>
+    <path d="M0 66 q26 -8 50 -2 q24 6 50 -2 l0 38 l-100 0 z" fill="#243a2a"/>
+    <path d="M18 92 Q50 76 82 92 Q50 100 18 92 Z" fill="#c9a6be" stroke="#2b2013" stroke-width="3.4" stroke-linejoin="round"/>
+    <path d="M30 88 q20 -8 40 0" stroke="#a8809e" stroke-width="2.6" fill="none"/>
+    <circle cx="42" cy="84" r="4.6" fill="#2a2440" stroke="#2b2013" stroke-width="2.4"/>
+    <circle cx="58" cy="84" r="4.6" fill="#2a2440" stroke="#2b2013" stroke-width="2.4"/>
+  </svg>`},
+  {name:'The next one, already booked', cap:'and then we do it all again',
+   note:'None of these evenings have happened yet, which is the entire reason I keep writing them down. The aquarium and the bowling and the terrible rented shoes are not really the point. The point is the bit on the way home where one of us asks so what are we doing next weekend, and the answer is already obvious. I would like to get to that part with you.',
+   svg:`<svg viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="40" fill="none" stroke="#c9c2ae" stroke-width="5"/>
+    <g stroke="#9a948a" stroke-width="3.6">
+      <path d="M50 50 L50 10 M50 50 L50 90 M50 50 L10 50 M50 50 L90 50"/>
+      <path d="M50 50 L22 22 M50 50 L78 78 M50 50 L78 22 M50 50 L22 78"/>
+    </g>
+    <g stroke="#2b2013" stroke-width="3">
+      <rect x="43" y="4" width="14" height="11" rx="3" fill="#d6263a"/>
+      <rect x="4" y="45" width="13" height="10" rx="3" fill="#f0c14b"/>
+      <rect x="83" y="45" width="13" height="10" rx="3" fill="#6fc7e8"/>
+      <rect x="15" y="15" width="13" height="10" rx="3" fill="#6fa850"/>
+      <rect x="72" y="15" width="13" height="10" rx="3" fill="#e0806a"/>
+    </g>
+    <circle cx="50" cy="50" r="14" fill="#c9a878" stroke="#2b2013" stroke-width="4"/>
+    <path d="M50 58 q-7 -6 -7 -10 q0 -3.4 3.4 -3.4 q2.6 0 3.2 2.6 q.6 -2.6 3.2 -2.6 q3.4 0 3.4 3.4 q0 4 -6 10 z"
+          fill="#d6263a" stroke="#2b2013" stroke-width="2.4" stroke-linejoin="round"/>
+  </svg>`}
 ];
+
 
 
 
@@ -2947,7 +3191,10 @@ const TERRAIN = {
           leaf:'#6fa850', leaf2:'#8fb85c', bark:'#8a6238', stone:'#c9c2ae', hearthside:true},
   /* past the tenth door, the long table with every leaf pulled out */
   dining:{g1:'#d8c9a8',g2:'#c8b694',g3:'#b5a17d', tufts:0, flowers:0, rocks:0, trees:0, bushes:0,
-          leaf:'#6fa850', leaf2:'#8fb85c', bark:'#8a5a3c', stone:'#f2ece0', feast:true}
+          leaf:'#6fa850', leaf2:'#8fb85c', bark:'#8a5a3c', stone:'#f2ece0', feast:true},
+  /* past the eleventh door, a whole evening out with the lights up */
+  datenight:{g1:'#3c3358',g2:'#332c4c',g3:'#2a2440', tufts:0, flowers:0, rocks:0, trees:0, bushes:0,
+          leaf:'#6fa850', leaf2:'#8fb85c', bark:'#8a5a3c', stone:'#c9c2ae', outing:true}
 };
 
 function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
@@ -3052,6 +3299,53 @@ function buildScenery(terrainName){
     return [rnd()*100, rnd()<.35 ? 42+rnd()*10 : 86+rnd()*12];
   };
   const place = T.tidal ? edgeSand : edge;
+  if(T.outing){
+    /* strings of little bulbs overhead */
+    for(let i=0;i<26;i++){
+      const x = 2+i*3.8, y = 6 + Math.sin(i*0.7)*3.4;
+      out.push(`<div style="position:absolute;left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;
+        width:9px;height:9px;border-radius:50%;background:#ffe9a8;
+        box-shadow:0 0 10px 3px rgba(255,214,120,.55)"></div>`);
+    }
+    /* a lit marquee sign */
+    add(`<svg viewBox="0 0 108 52" width="108" height="52">
+      <rect x="4" y="6" width="100" height="40" rx="5" fill="#2a2440" stroke="#f0c14b" stroke-width="4"/>
+      <g fill="#ffe9a8">
+        <circle cx="12" cy="12" r="2.6"/><circle cx="30" cy="10" r="2.6"/><circle cx="54" cy="9" r="2.6"/>
+        <circle cx="78" cy="10" r="2.6"/><circle cx="96" cy="12" r="2.6"/>
+        <circle cx="12" cy="40" r="2.6"/><circle cx="30" cy="42" r="2.6"/><circle cx="54" cy="43" r="2.6"/>
+        <circle cx="78" cy="42" r="2.6"/><circle cx="96" cy="40" r="2.6"/>
+      </g>
+      <path d="M20 26 h68" stroke="#d6263a" stroke-width="6" stroke-linecap="round"/>
+      <path d="M28 20 h52" stroke="#6fc7e8" stroke-width="4" stroke-linecap="round" opacity=".9"/>
+    </svg>`, 40+rnd()*20, 12+rnd()*5, .7+rnd()*.25);
+    /* small round tables with candles */
+    for(let i=0;i<6;i++){
+      add(`<svg viewBox="0 0 46 46" width="46" height="46">
+        <ellipse cx="23" cy="18" rx="19" ry="9" fill="#8a5a3c" stroke="#2b2013" stroke-width="3"/>
+        <path d="M23 26 L23 42" stroke="#6a4028" stroke-width="5" stroke-linecap="round"/>
+        <ellipse cx="23" cy="43" rx="11" ry="3.4" fill="#6a4028"/>
+        <rect x="20" y="6" width="6" height="11" rx="2" fill="#f2ece0" stroke="#2b2013" stroke-width="2.2"/>
+        <path d="M23 6 q3 -6 0 -10 q-3 4 0 10 z" fill="#f0c14b" stroke="#a8201a" stroke-width="1.8" stroke-linejoin="round"/>
+      </svg>`, rnd()*100, 40+rnd()*52, .55+rnd()*.4);
+    }
+    /* velvet rope stands */
+    for(let i=0;i<4;i++){
+      add(`<svg viewBox="0 0 60 44" width="60" height="44">
+        <path d="M8 12 L8 40 M52 12 L52 40" stroke="#c9a06a" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="8" cy="9" r="4" fill="#f0c14b" stroke="#2b2013" stroke-width="2.2"/>
+        <circle cx="52" cy="9" r="4" fill="#f0c14b" stroke="#2b2013" stroke-width="2.2"/>
+        <path d="M8 12 Q30 26 52 12" fill="none" stroke="#a8201a" stroke-width="5" stroke-linecap="round"/>
+      </svg>`, ...(rnd()<.5 ? [3+rnd()*12, 42+rnd()*46] : [85+rnd()*12, 42+rnd()*46]), .55+rnd()*.35);
+    }
+    /* a scattering of ticket stubs */
+    for(let i=0;i<8;i++){
+      add(`<svg viewBox="0 0 30 16" width="30" height="16">
+        <path d="M2 3 h26 v4 a3 3 0 0 0 0 2 v4 h-26 v-4 a3 3 0 0 0 0 -2 z" fill="#f7f2e0" stroke="#2b2013" stroke-width="2"/>
+        <path d="M18 4 v8" stroke="#c9c2ae" stroke-width="1.6" stroke-dasharray="2 2"/>
+      </svg>`, rnd()*100, 44+rnd()*50, .5+rnd()*.4);
+    }
+  }
   if(T.feast){
     /* the long table runs the length of the room */
     out.push(`<div style="position:absolute;left:8%;top:26%;width:84%;height:48%;border-radius:10px;
@@ -3410,6 +3704,7 @@ function tideMode(){
   if(T.galley) return 'kitchen';
   if(T.hearthside) return 'home';
   if(T.feast) return 'family';
+  if(T.outing) return 'date';
   if(T.lantern) return 'china';
   return null;
 }
@@ -3517,8 +3812,8 @@ function spawn(type, at){
   if(cfg.boss){
     f.addGap = smallScreen() ? 12 : 8;
     f.addPair = !smallScreen();
-    f.addA = cfg.cold ? 'gelato' : cfg.hot ? 'zeppola' : cfg.wet ? 'coconut' : cfg.furry ? 'kittenfoe' : cfg.wok ? 'baozi' : cfg.kin ? 'casserole' : cfg.homely ? 'sockfoe' : cfg.cooked ? 'carbonara' : 'tiramisu';
-    f.addB = cfg.cold ? 'ghiacciolo' : cfg.hot ? 'bombolone' : cfg.wet ? 'pineapple' : cfg.furry ? 'sphynxfoe' : cfg.wok ? 'springroll' : cfg.kin ? 'teapotfoe' : cfg.homely ? 'lampfoe' : cfg.cooked ? 'arancino' : 'cupcake';
+    f.addA = cfg.cold ? 'gelato' : cfg.hot ? 'zeppola' : cfg.wet ? 'coconut' : cfg.furry ? 'kittenfoe' : cfg.wok ? 'baozi' : cfg.night ? 'popcornfoe' : cfg.kin ? 'casserole' : cfg.homely ? 'sockfoe' : cfg.cooked ? 'carbonara' : 'tiramisu';
+    f.addB = cfg.cold ? 'ghiacciolo' : cfg.hot ? 'bombolone' : cfg.wet ? 'pineapple' : cfg.furry ? 'sphynxfoe' : cfg.wok ? 'springroll' : cfg.night ? 'sushifoe' : cfg.kin ? 'teapotfoe' : cfg.homely ? 'lampfoe' : cfg.cooked ? 'arancino' : 'cupcake';
     if(smallScreen()){ f.hp = f.hpMax = 16; f.shoot = 2.1; }
   }
   if(cfg.giantFlag){ f.giant = true; f.vulnerable = false; f.vulnT = 3.4; }
@@ -4013,6 +4308,7 @@ function renderTide(){
   els.tideWrap.classList.toggle('mode-kitchen', mode==='kitchen');
   els.tideWrap.classList.toggle('mode-home', mode==='home');
   els.tideWrap.classList.toggle('mode-family', mode==='family');
+  els.tideWrap.classList.toggle('mode-date', mode==='date');
   els.tideWrap.classList.toggle('mode-china', mode==='china');
   const btn = $('tideBtn');
   if(btn){
@@ -4024,10 +4320,11 @@ function renderTide(){
     btn.classList.toggle('mode-china', mode==='china');
     btn.classList.toggle('mode-home', mode==='home');
     btn.classList.toggle('mode-family', mode==='family');
-    if(on) btn.textContent = mode==='fire' ? 'Cinder Burst' : mode==='cats' ? 'Nine Lives' : mode==='kitchen' ? 'Flambe' : mode==='china' ? 'Dragon Roar' : mode==='home' ? 'Hearthlight' : mode==='family' ? 'Long Table' : 'Riptide';
+    btn.classList.toggle('mode-date', mode==='date');
+    if(on) btn.textContent = mode==='fire' ? 'Cinder Burst' : mode==='cats' ? 'Nine Lives' : mode==='kitchen' ? 'Flambe' : mode==='china' ? 'Dragon Roar' : mode==='home' ? 'Hearthlight' : mode==='family' ? 'Long Table' : mode==='date' ? 'Encore' : 'Riptide';
   }
   const lbl = document.querySelector('.tide-label');
-  if(lbl && on) lbl.textContent = mode==='fire' ? 'Cinder Burst' : mode==='cats' ? 'Nine Lives' : mode==='kitchen' ? 'Flambe' : mode==='china' ? 'Dragon Roar' : mode==='home' ? 'Hearthlight' : mode==='family' ? 'Long Table' : 'Riptide';
+  if(lbl && on) lbl.textContent = mode==='fire' ? 'Cinder Burst' : mode==='cats' ? 'Nine Lives' : mode==='kitchen' ? 'Flambe' : mode==='china' ? 'Dragon Roar' : mode==='home' ? 'Hearthlight' : mode==='family' ? 'Long Table' : mode==='date' ? 'Encore' : 'Riptide';
   if(!on) return;
   els.tideMeter.style.width = tide.charge + '%';
   const ready = tide.charge>=100;
@@ -4047,6 +4344,7 @@ function unleashTide(){
   else if(mode==='china'){ beep('sawtooth',120,.3,.08,60); setTimeout(()=>beep('square',480,.22,.07,900),90); }
   else if(mode==='home'){ beep('sine',330,.26,.07,660); setTimeout(()=>beep('triangle',560,.24,.06,880),80); }
   else if(mode==='family'){ beep('triangle',300,.26,.07,600); setTimeout(()=>beep('sine',600,.26,.06,960),90); }
+  else if(mode==='date'){ beep('sine',420,.24,.07,840); setTimeout(()=>beep('triangle',760,.24,.06,1180),80); }
   else { beep('sine',180,.3,.08,60); setTimeout(()=>beep('triangle',420,.25,.08,720),80); }
   spawnRipple(player.x, player.y, mode);
   const radius = 220*SC;
@@ -4057,7 +4355,7 @@ function unleashTide(){
     f.kx = (dx/d)*420*SC; f.ky = (dy/d)*420*SC;
   }
   player.inv = Math.max(player.inv, 1.0);
-  floatText(mode==='fire' ? 'cinder burst!' : mode==='cats' ? 'nine lives!' : mode==='kitchen' ? 'flambe!' : mode==='china' ? 'dragon roar!' : mode==='home' ? 'hearthlight!' : mode==='family' ? 'long table!' : 'riptide!', player.x, player.y-40, mode==='fire' ? '#ff8a3c' : mode==='cats' ? '#c9a0e8' : mode==='kitchen' ? '#f0c14b' : mode==='china' ? '#d6263a' : mode==='home' ? '#e8935a' : mode==='family' ? '#f0c14b' : '#6fc7e8');
+  floatText(mode==='fire' ? 'cinder burst!' : mode==='cats' ? 'nine lives!' : mode==='kitchen' ? 'flambe!' : mode==='china' ? 'dragon roar!' : mode==='home' ? 'hearthlight!' : mode==='family' ? 'long table!' : mode==='date' ? 'encore!' : 'riptide!', player.x, player.y-40, mode==='fire' ? '#ff8a3c' : mode==='cats' ? '#c9a0e8' : mode==='kitchen' ? '#f0c14b' : mode==='china' ? '#d6263a' : mode==='home' ? '#e8935a' : mode==='family' ? '#f0c14b' : mode==='date' ? '#c9a6e8' : '#6fc7e8');
 }
 
 function spawnBlast(x,y){
@@ -4109,7 +4407,7 @@ function tickHazards(dt){
 
 function spawnRipple(x,y,mode){
   const el = document.createElement('div');
-  el.className = 'ripple' + (mode==='fire' ? ' fire' : mode==='cats' ? ' cats' : mode==='kitchen' ? ' kitchen' : mode==='china' ? ' china' : mode==='home' ? ' home' : mode==='family' ? ' family' : '');
+  el.className = 'ripple' + (mode==='fire' ? ' fire' : mode==='cats' ? ' cats' : mode==='kitchen' ? ' kitchen' : mode==='china' ? ' china' : mode==='home' ? ' home' : mode==='family' ? ' family' : mode==='date' ? ' date' : '');
   el.style.left = x+'px'; el.style.top = y+'px';
   arena.appendChild(el);
   setTimeout(()=>el.remove(), 650);
@@ -4439,6 +4737,18 @@ function step(dt){
     const d = Math.hypot(dx,dy)||1;
 
     /* ---- the pizza winds up, then hurls itself in a straight line ---- */
+    /* ---- the jellyfish simply is not where you left it ---- */
+    if(f.blinker){
+      f.blinkT = (typeof f.blinkT === 'number' ? f.blinkT : rand(2.2,3.6)) - dt;
+      if(f.blinkT <= 0){
+        f.blinkT = rand(2.4,3.8);
+        const ang = rand(0, Math.PI*2), dist = rand(120,210)*SC;
+        f.x = clamp(player.x + Math.cos(ang)*dist, 30, W-30);
+        f.y = clamp(player.y + Math.sin(ang)*dist, 30, H-30);
+        f.el.classList.remove('blink'); void f.el.offsetWidth; f.el.classList.add('blink');
+        beep('sine',620,.1,.03,940);
+      }
+    }
     if(f.dasher){
       f.dashT = (typeof f.dashT === 'number' ? f.dashT : rand(1.4,2.6)) - dt;
       if(f.dashState === 'charge'){
@@ -4681,8 +4991,11 @@ function endLevel(won, failReason){
     wn.textContent = pz.note || '';
     wn.classList.toggle('on', !!pz.note);
     if(levelIdx === LEVELS.length-1){
-      $('winRibbon').textContent = 'Eighty-eight seals broken · the codex is complete';
-      $('winText').innerHTML = 'The table has sat back down, the plates are cleared, and somebody has just put the coffee on. Every trial in the codex is behind you now.';
+      $('winRibbon').textContent = 'Ninety-six seals broken · the codex is complete';
+      $('winText').innerHTML = 'The wheel has stopped, the pier is emptying out, and we are the last two walking back to the car. Every trial in the codex is behind you now.';
+    } else if(levelIdx === 87){
+      $('winRibbon').textContent = 'Eighty-eight seals broken · the table clears';
+      $('winText').innerHTML = 'The table has sat back down and somebody has just put the coffee on.<br><span style="font-size:14px">But your coat is by the door and the late showing starts in forty minutes — chapter XII is open.</span>';
     } else if(levelIdx === 79){
       $('winRibbon').textContent = 'Eighty seals broken · the house settles';
       $('winText').innerHTML = 'The house has settled back onto its foundations and the hearth is still burning.<br><span style="font-size:14px">But there is one more door off the hallway, and the table behind it has every leaf pulled out — chapter XI is open.</span>';
@@ -4776,8 +5089,8 @@ function showMap(){
 }
 
 function renderMap(){
-  const wrap = $('nodes'), wrap2 = $('nodes2'), wrap3 = $('nodes3'), wrap4 = $('nodes4'), wrap5 = $('nodes5'), wrap6 = $('nodes6'), wrap7 = $('nodes7'), wrap8 = $('nodes8'), wrap9 = $('nodes9'), wrap10 = $('nodes10'), wrap11 = $('nodes11');
-  wrap.innerHTML = ''; wrap2.innerHTML = ''; wrap3.innerHTML = ''; wrap4.innerHTML = ''; wrap5.innerHTML = ''; wrap6.innerHTML = ''; wrap7.innerHTML = ''; wrap8.innerHTML = ''; wrap9.innerHTML = ''; wrap10.innerHTML = ''; wrap11.innerHTML = '';
+  const wrap = $('nodes'), wrap2 = $('nodes2'), wrap3 = $('nodes3'), wrap4 = $('nodes4'), wrap5 = $('nodes5'), wrap6 = $('nodes6'), wrap7 = $('nodes7'), wrap8 = $('nodes8'), wrap9 = $('nodes9'), wrap10 = $('nodes10'), wrap11 = $('nodes11'), wrap12 = $('nodes12');
+  wrap.innerHTML = ''; wrap2.innerHTML = ''; wrap3.innerHTML = ''; wrap4.innerHTML = ''; wrap5.innerHTML = ''; wrap6.innerHTML = ''; wrap7.innerHTML = ''; wrap8.innerHTML = ''; wrap9.innerHTML = ''; wrap10.innerHTML = ''; wrap11.innerHTML = ''; wrap12.innerHTML = '';
   LEVELS.forEach((L,i)=>{
     const unlocked = i <= progress.cleared;
     const done = (progress.stars[i]||0) > 0;
@@ -4793,7 +5106,7 @@ function renderMap(){
     if(unlocked) b.addEventListener('click', ()=>{
       if(L.brief) openBrief(i); else startLevel(i);
     });
-    (i < 8 ? wrap : i < 16 ? wrap2 : i < 24 ? wrap3 : i < 32 ? wrap4 : i < 40 ? wrap5 : i < 48 ? wrap6 : i < 56 ? wrap7 : i < 64 ? wrap8 : i < 72 ? wrap9 : i < 80 ? wrap10 : wrap11).appendChild(b);
+    (i < 8 ? wrap : i < 16 ? wrap2 : i < 24 ? wrap3 : i < 32 ? wrap4 : i < 40 ? wrap5 : i < 48 ? wrap6 : i < 56 ? wrap7 : i < 64 ? wrap8 : i < 72 ? wrap9 : i < 80 ? wrap10 : i < 88 ? wrap11 : wrap12).appendChild(b);
   });
   const siegeOpen = progress.cleared >= 8;
   $('chapter2Head').className = 'chapter' + (siegeOpen ? '' : ' locked');
@@ -4845,6 +5158,11 @@ function renderMap(){
   $('chapter11Head').textContent = familyOpen
     ? 'Chapter XI · the long table — everyone came'
     : 'Chapter XI · sealed until the house settles';
+  const datesOpen = progress.cleared >= 88;
+  $('chapter12Head').className = 'chapter' + (datesOpen ? '' : ' locked');
+  $('chapter12Head').textContent = datesOpen
+    ? 'Chapter XII · nights out — a different one every time'
+    : 'Chapter XII · sealed until the table clears';
   $('reliquary').innerHTML = LEVELS.map((L,i)=>{
     const won = (progress.stars[i]||0) > 0;
     const pz = PRIZES[L.prize];
